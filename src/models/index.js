@@ -7,19 +7,27 @@ const Order = require("./Order");
 const OrderItem = require("./OrderItem");
 const Setting = require("./Setting");
 
-// Category → Product
+// =======================
+// CATEGORY → PRODUCT
+// =======================
 Category.hasMany(Product, { foreignKey: "categoryId" });
 Product.belongsTo(Category, { foreignKey: "categoryId" });
 
-// User → Order
+// =======================
+// USER → ORDER
+// =======================
 User.hasMany(Order, { foreignKey: "userId" });
 Order.belongsTo(User, { foreignKey: "userId" });
 
-// Order → OrderItem
+// =======================
+// ORDER → ORDER ITEMS
+// =======================
 Order.hasMany(OrderItem, { foreignKey: "orderId" });
 OrderItem.belongsTo(Order, { foreignKey: "orderId" });
 
-// Product → OrderItem
+// =======================
+// PRODUCT → ORDER ITEMS
+// =======================
 Product.hasMany(OrderItem, { foreignKey: "productId" });
 OrderItem.belongsTo(Product, { foreignKey: "productId" });
 
@@ -30,5 +38,5 @@ module.exports = {
   Product,
   Order,
   OrderItem,
-  Setting
+  Setting,
 };

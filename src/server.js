@@ -1,47 +1,71 @@
 require("dotenv").config();
 
 const express = require("express");
-const db = require("./models"); // Sequelize models
+
+// 📦 Database (Sequelize models)
+const db = require("./models");
+
+// 🛡️ AdminJS
 const { adminJs, adminRouter } = require("./admin/admin");
+
+// 📦 Routes
 const categoryRoutes = require("./routes/categoryRoutes");
+const authRoutes = require("./routes/authRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
+// ==========================
+// MIDDLEWARE
+// ==========================
 app.use(express.json());
 
-/* ---------------- API ROUTES ---------------- */
-app.use("/api", categoryRoutes);
-
-/* ---------------- ADMIN DASHBOARD ---------------- */
-app.use(adminJs.options.rootPath, adminRouter);
-
-/* ---------------- TEST ROUTE ---------------- */
+// ==========================
+// TEST ROUTE
+// ==========================
 app.get("/", (req, res) => {
-  res.send("Ecommerce Admin Backend & Dashboard Running...");
+  res.send("🚀 Ecommerce Admin Backend Running Successfully");
 });
 
-/* ---------------- SERVER START ---------------- */
+// ==========================
+// API ROUTES
+// ==========================
+app.use("/api", authRoutes);        // 🔐 LOGIN / JWT
+app.use("/api", categoryRoutes);    // 📦 CATEGORY
+app.use("/api/dashboard", dashboardRoutes); // 📊 DASHBOARD STATS
 
+// ==========================
+// ADMIN PANEL (AdminJS)
+// ==========================
+app.use(adminJs.options.rootPath, adminRouter);
+
+// ==========================
+// SERVER START
+// ==========================
 const PORT = process.env.PORT || 7001;
 
 const startServer = async () => {
   try {
-    // Connect database
+    // 🔌 Connect database
     await db.sequelize.authenticate();
-    console.log("Database connected successfully");
+    console.log("✅ Database connected successfully");
 
-    // Sync database tables
+    // 🔄 Sync tables
     await db.sequelize.sync();
+    console.log("✅ Database synced successfully");
 
-    // Start server
+    // 🚀 Start server
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-      console.log(`Admin panel: http://localhost:${PORT}/admin`);
-      console.log(`API base: http://localhost:${PORT}/api`);
+      console.log("=================================");
+      console.log(`🚀 Server running on: http://localhost:${PORT}`);
+      console.log(`📊 Admin Panel: http://localhost:${PORT}/admin`);
+      console.log(`🔐 Auth API: http://localhost:${PORT}/api/login`);
+      console.log(`📦 API Base: http://localhost:${PORT}/api`);
+      console.log("=================================");
     });
 
   } catch (error) {
-    console.error("Database connection failed:", error);
+    console.error("❌ Database connection failed:", error);
   }
 };
 
