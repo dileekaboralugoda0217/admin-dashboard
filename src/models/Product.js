@@ -19,10 +19,6 @@ const Product = sequelize.define("Product", {
   stock: {
     type: DataTypes.INTEGER,
     defaultValue: 0
-  },
-
-  image: {
-    type: DataTypes.STRING
   }
 });
 

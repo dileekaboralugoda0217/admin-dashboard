@@ -3,11 +3,7 @@ const AdminJSExpress = require("@adminjs/express");
 const AdminJSSequelize = require("@adminjs/sequelize");
 
 // 📦 MODELS
-const User = require("../models/User");
-const Setting = require("../models/Setting");
-const Product = require("../models/Product");
-const Order = require("../models/Order");
-const OrderItem = require("../models/OrderItem");
+const { User, Setting, Product, Order, OrderItem, Category } = require("../models");
 
 // Register Sequelize adapter
 AdminJS.registerAdapter(AdminJSSequelize);
@@ -37,6 +33,10 @@ const adminJs = new AdminJS({
     },
 
     {
+      resource: Category,
+    },
+
+    {
       resource: Setting,
       options: {
         properties: {
@@ -47,13 +47,6 @@ const adminJs = new AdminJS({
 
     {
       resource: Product,
-      options: {
-        properties: {
-          image: {
-            isVisible: true,
-          },
-        },
-      },
     },
 
     {
