@@ -57,13 +57,6 @@ const adminJs = new AdminJS({
       resource: OrderItem,
     },
   ],
-
-  // 🎨 BRANDING
-  branding: {
-    companyName: "Ecommerce Management System",
-    logo: false,
-    softwareBrothers: false,
-  },
 });
 
 // ==========================
